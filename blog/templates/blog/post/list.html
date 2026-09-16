@@ -1,20 +1,50 @@
-{% extends "blog/base.html" %}  
-  
+{% extends "blog/base.html" %}
+
 {% block title %}Мой блог{% endblock %}
-  
-{% block content %}  
-  <h1>Мой блог</h1>
-  {% for post in posts %}  
-    <h2>  
-      <a href="{{ post.get_absolute_url }}">  
-       {{ post.title }}  
-      </a>
-    </h2>
-      <p class="tags">Tags: {{ post.tags.all|join:", " }}</p>
-    <p class="date">  
-      Опубликованно {{ post.publish }} Автор {{ post.author }}
-    </p>  
-    {{ post.body|truncatewords:30|linebreaks }}
-  {% endfor %}
-{% include "../pagination.html" with page=page_obj %}
+
+{% block content %}
+  <section class="hero">
+    <span class="eyebrow">✦ Последние записи</span>
+    <h1>Мой блог</h1>
+    <p>Здесь я пишу о том, что мне интересно — коротко, по делу, без воды.</p>
+  </section>
+
+  {% if posts %}
+    <ul class="post-list">
+      {% for post in posts %}
+        <li class="post-card">
+          {% if post.tags.all %}
+            <div class="tag-list">
+              {% for tag in post.tags.all %}
+                <span class="tag-pill">{{ tag.name }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <h2 class="post-card__title">
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+          </h2>
+
+          <div class="post-meta">
+            <span class="avatar">{{ post.author.username|slice:":1"|upper }}</span>
+            <span>{{ post.author }}</span>
+            <span>·</span>
+            <span>{{ post.publish|date:"d M Y" }}</span>
+          </div>
+
+          <div class="post-card__excerpt">
+            {{ post.body|truncatewords:30|linebreaks }}
+          </div>
+
+          <a class="read-more" href="{{ post.get_absolute_url }}">Читать далее →</a>
+        </li>
+      {% endfor %}
+    </ul>
+
+    {% include "blog/pagination.html" with page=page_obj %}
+  {% else %}
+    <div class="card empty-state">
+      <p>Пока нет опубликованных записей.</p>
+    </div>
+  {% endif %}
 {% endblock %}

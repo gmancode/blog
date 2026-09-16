@@ -1,19 +1,24 @@
-{% extends "blog/base.html" %}  
-  
-{% block title %}Share a post{% endblock %}  
-  
-{% block content %}  
-  {% if sent %}  
-    <h1>E-mail successfully sent</h1>  
-    <p>  
-      "{{ post.title }}" was successfully sent to {{ form.cleaned_data.to }}.  
-    </p>  
-  {% else %}  
-    <h1>Share "{{ post.title }}" by e-mail</h1>  
-    <form action="." method="post">  
-      {{ form.as_p }}  
-      {% csrf_token %}  
-      <input type="submit" value="Send e-mail">  
-    </form>  
-  {% endif %}  
+{% extends "blog/base.html" %}
+
+{% block title %}Поделиться записью{% endblock %}
+
+{% block content %}
+  <div class="card" style="max-width: 520px;">
+    {% if sent %}
+      <div class="success-banner">✓ Письмо успешно отправлено</div>
+      <p style="margin-top: 16px; color: var(--text-muted);">
+        «{{ post.title }}» отправлено на {{ form.cleaned_data.to }}.
+      </p>
+      <p style="margin-top: 16px;">
+        <a class="btn btn-ghost" href="{{ post.get_absolute_url }}">← Вернуться к записи</a>
+      </p>
+    {% else %}
+      <h1 style="font-size: 1.4rem;">Поделиться «{{ post.title }}» по e-mail</h1>
+      <form action="." method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="submit" value="Отправить">
+      </form>
+    {% endif %}
+  </div>
 {% endblock %}

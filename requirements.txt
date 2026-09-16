@@ -1,0 +1,9 @@
+# Django 5.2 is the current LTS (supported with security updates until April 2028)
+# and supports Python 3.10–3.14. The old pinning to Django 3.2 / Python 3.8 is EOL.
+Django>=5.2,<5.3
+
+# Tag support for posts — updated for compatibility with modern Django.
+django-taggit>=6.1
+
+# Loads DJANGO_SECRET_KEY / EMAIL_* from a local .env file (optional but recommended).
+python-dotenv>=1.0

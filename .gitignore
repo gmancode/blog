@@ -1,0 +1,16 @@
+# Secrets — never commit these
+.env
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Django
+db.sqlite3
+staticfiles/
+
+# Editors
+.idea/
+.DS_Store
